@@ -5,7 +5,11 @@ import sqlite3  # 导入sqlite3模块
 import traceback  # 添加traceback模块用于详细错误信息
 import re
 from utils.aiAnwser import query_large_model  # 添加导入AI模型查询函数
-from config import API_CONFIG
+import json
+
+# 读取配置文件
+with open('config.json', 'r', encoding='utf-8') as f:
+    API_CONFIG = json.load(f)
 
 # 修改数据库连接函数
 def connect_to_database():

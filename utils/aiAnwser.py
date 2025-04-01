@@ -2,7 +2,10 @@ import requests
 import traceback
 import json
 import time
-from config import API_CONFIG
+
+# 读取配置文件
+with open('config.json', 'r', encoding='utf-8') as f:
+    API_CONFIG = json.load(f)
 
 def query_large_model(title, options, question_type):
     """

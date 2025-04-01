@@ -1,6 +1,9 @@
 import requests
 import json
-from config import API_CONFIG
+
+# 读取配置文件
+with open('config.json', 'r', encoding='utf-8') as f:
+    API_CONFIG = json.load(f)
 
 # API 配置信息
 api_config = {
