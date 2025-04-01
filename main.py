@@ -179,10 +179,13 @@ def init_routes(app):
 
 def print_api_config(host, port):
     """打印API配置信息"""
+    # 如果host是0.0.0.0，在配置中显示为127.0.0.1
+    display_host = "127.0.0.1" if host == "0.0.0.0" else host
+    
     api_config = {
         "name": "ZE题库",
         "homepage": "https://pages.zaizhexue.top/",
-        "url": f"{host}:{port}/api/query",
+        "url": f"http://{display_host}:{port}/api/query",
         "method": "get",
         "type": "GM_xmlhttpRequest",
         "contentType": "json",
@@ -240,6 +243,8 @@ if __name__ == '__main__':
     app = create_app()
     host = API_CONFIG["host"]
     port = API_CONFIG["port"]
-    print(f"启动Flask服务器，访问地址: {host}:{port}")
+    # 同样在启动信息中也使用显示用的host
+    display_host = "127.0.0.1" if host == "0.0.0.0" else host
+    print(f"启动Flask服务器，地址: {display_host}:{port}")
     print_api_config(host, port)
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host=host, port=port, debug=True)

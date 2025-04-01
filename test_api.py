@@ -1,17 +1,16 @@
 import requests
 import json
+from config import API_CONFIG
 
 # API 配置信息
 api_config = {
     "name": "ZE题库",
     "homepage": "https://pages.zaizhexue.top/",
-    "url": "http://127.0.0.1:5000/api/query",
+    "url": f"http://127.0.0.1:{API_CONFIG['port']}/api/query",
     "method": "get",
     "type": "GM_xmlhttpRequest",
     "contentType": "json",
     "data": {
-        "ai": 1,
-        "token": "41bd15ce94c88e5069bf5e92ba25372d6825712d9e5e5ddb7dc972ea3e9dc8ae3e5f830b960abda147dd57f59984bf4f6a3d171ac95111",
         "title": "${title}",
         "options": "${options}",
         "type": "${type}"
@@ -30,8 +29,6 @@ def test_api(title, options="", question_type=""):
     """
     # 准备请求参数
     params = {
-        "ai": api_config["data"]["ai"],
-        "token": api_config["data"]["token"],
         "title": title,
         "options": options,
         "type": question_type
