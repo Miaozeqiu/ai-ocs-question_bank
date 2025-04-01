@@ -4,7 +4,7 @@ from config import API_CONFIG
 
 # API 配置信息
 api_config = {
-    "name": "ZE题库",
+    "name": "ZE题库(自建版)",
     "homepage": "https://pages.zaizhexue.top/",
     "url": f"http://127.0.0.1:{API_CONFIG['port']}/api/query",
     "method": "get",
@@ -20,7 +20,7 @@ api_config = {
 
 def test_api(title, options="", question_type=""):
     """
-    测试 ZE 题库 API
+    测试 ZE题库(自建版) API
     
     参数:
         title (str): 问题标题

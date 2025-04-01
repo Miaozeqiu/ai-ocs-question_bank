@@ -183,7 +183,7 @@ def print_api_config(host, port):
     display_host = "127.0.0.1" if host == "0.0.0.0" else host
     
     api_config = {
-        "name": "ZE题库",
+        "name": "ZE题库(自建版)",
         "homepage": "https://pages.zaizhexue.top/",
         "url": f"http://{display_host}:{port}/api/query",
         "method": "get",
