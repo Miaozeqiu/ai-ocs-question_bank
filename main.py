@@ -83,7 +83,7 @@ def search_answer():
                     "data": {
                         "code": 1,
                         "data": result['answer'],
-                        "msg": "来自公共题库",
+                        "msg": "来于本地数据库题库",
                         "source": "public"
                     }
                 })
@@ -125,22 +125,13 @@ def search_answer():
                                 ai_answer = answer_dict["answer"]
                             elif "anwser" in answer_dict:  # 处理可能的拼写错误
                                 ai_answer = answer_dict["anwser"]
-                        # 如果不是JSON格式，尝试旧的格式处理
-                        elif "答案：" in ai_answer:
-                            ai_answer = ai_answer.split("答案：", 1)[1].strip()
-                        elif "答案:" in ai_answer:
-                            ai_answer = ai_answer.split("答案:", 1)[1].strip()
+
                     except json.JSONDecodeError as e:
                         print(f"解析AI回答JSON失败: {str(e)}")
                         print(f"原始JSON字符串: {json_str if 'json_str' in locals() else '未提取'}")
                         
-                        # 如果JSON解析失败，尝试使用旧的格式处理
-                        if "答案：" in ai_answer:
-                            ai_answer = ai_answer.split("答案：", 1)[1].strip()
-                        elif "答案:" in ai_answer:
-                            ai_answer = ai_answer.split("答案:", 1)[1].strip()
                         # 尝试直接提取引号中的内容作为答案
-                        elif '"answer"' in ai_answer or '"anwser"' in ai_answer:
+                        if '"answer"' in ai_answer or '"anwser"' in ai_answer:
                             try:
                                 # 使用正则表达式提取引号中的内容
                                 answer_match = re.search(r'"answer"\s*:\s*"([^"]+)"', ai_answer)
