@@ -1,5 +1,4 @@
 from flask import request, jsonify, Flask
-import requests
 import json
 import sqlite3  # 导入sqlite3模块
 import traceback  # 添加traceback模块用于详细错误信息
@@ -11,7 +10,32 @@ import json
 with open('config.json', 'r', encoding='utf-8') as f:
     API_CONFIG = json.load(f)
 
-# 修改数据库连接函数
+def init_database():
+    """初始化数据库表结构"""
+    conn = connect_to_database()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            
+            # 创建问题答案表
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS question_answer (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    question TEXT NOT NULL,
+                    answer TEXT NOT NULL,
+                    options TEXT,
+                    type TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            ''')
+            
+            conn.commit()
+            print("数据库表初始化成功")
+        except Exception as e:
+            print(f"初始化数据库表失败: {str(e)}")
+        finally:
+            conn.close()
+
 def connect_to_database():
     try:
         # 连接到SQLite数据库，如果不存在则创建
@@ -179,8 +203,6 @@ def search_answer():
 def init_routes(app):
     app.route('/api/query', methods=['GET'])(search_answer)
 
-
-
 def print_api_config(host, port):
     """打印API配置信息"""
     # 如果host是0.0.0.0，在配置中显示为127.0.0.1
@@ -202,34 +224,6 @@ def print_api_config(host, port):
     }
     print("\nAPI配置信息:")
     print(json.dumps(api_config, ensure_ascii=False, indent=2))
-# 添加以下代码，使脚本可以直接运行
-
-
-def init_database():
-    """初始化数据库表结构"""
-    conn = connect_to_database()
-    if conn:
-        try:
-            cursor = conn.cursor()
-            
-            # 创建问题答案表
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS question_answer (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    question TEXT NOT NULL,
-                    answer TEXT NOT NULL,
-                    options TEXT,
-                    type TEXT,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-            ''')
-            
-            conn.commit()
-            print("数据库表初始化成功")
-        except Exception as e:
-            print(f"初始化数据库表失败: {str(e)}")
-        finally:
-            conn.close()
 
 def create_app():
     app = Flask(__name__)
@@ -241,8 +235,7 @@ def create_app():
     init_routes(app)
     
     return app
-# 当直接运行此脚本时执行
-# 修改主程序部分
+
 if __name__ == '__main__':
     app = create_app()
     host = API_CONFIG["host"]
