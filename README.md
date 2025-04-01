@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 
 ## 配置
-在`config.py`文件中设置你的OpenAI API密钥。
+在`config.py`文件中设置你的硅基流动 API密钥。
 目前只支持硅基流动的API_Key
 [注册链接](https://cloud.siliconflow.cn/i/yWzlOTHL)
 邀请码：`yWzlOTHL`
